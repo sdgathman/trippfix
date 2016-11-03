@@ -37,11 +37,11 @@ Install this if you need your Tripplite SMART1500LCDT to work with nut
 for more than a few days.
 
 %prep
-%setup -q
-
+%setup -q -n trippfix-%{version}
+cp -p %{SOURCE1} .
 
 %build
-make %{?_smp_mflags} hub-ctrl
+make LDFLAGS="$RPM_LD_FLAGS -lusb" V=1 hub-ctrl
 
 %install
 mkdir -p %{buildroot}%{_sysconfdir}/ups
@@ -65,6 +65,7 @@ install -pm 755 sms.py %{buildroot}%{_bindir}/sms
 %{_sysconfdir}/ups/upssched-tripp.conf
 %{_libexecdir}/trippfix
 %{_sbindir}/hub-ctrl
+%{_bindir}/sms
 
 %changelog
 
