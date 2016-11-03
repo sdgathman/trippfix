@@ -11,8 +11,6 @@ from ConfigParser import RawConfigParser
 
 logging.basicConfig(level=logging.INFO)
 
-# FIXME: need to read these from config
-
 config = RawConfigParser()
 config.read('/etc/ups/sms.conf')
 
