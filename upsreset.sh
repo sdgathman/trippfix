@@ -6,11 +6,11 @@ reset() {
       bus="$bus"
       dev="${dev%:}"
       # echo $bus $dev
-      /sbin/hubpower "${bus}:${dev}" status | grep Connected | grep Low-Speed |
+      /sbin/hub-ctrl "-b ${bus} -d ${dev}" -v | grep Connected | grep Low-Speed |
       while read x1 port x2; do
-	/sbin/hubpower "${bus}:${dev}" power "$port" off
+	/sbin/hub-ctrl "-b ${bus} -d ${dev}" -P"$port" -p 0
 	sleep 10
-	/sbin/hubpower "${bus}:${dev}" power "$port" on
+	/sbin/hub-ctrl "-b ${bus} -d ${dev}" -P"$port" -p 1
       done
     done
 }

@@ -2,6 +2,8 @@
 
 ## @trippfix Workaround broken USB port on Tripplite SMART1500LCDT
 #
+# WIP: currently using shell scripts
+#
 # The USB port on the Tripplite hangs after 4 days or so.  It can be
 # reset by removing and reinserting the USB cable.  If it is plugged
 # into a port on a real USB 2.0 hub (a rare beast - most leave out
@@ -15,8 +17,22 @@
 # When the Tripplite hangs, it disappears from the USB bus, so we have
 # to save the parent hub and port while it is working.
 
+## Parse an attribute line such as found in /proc/bus/usb/devices.
+#
+# Sample attribute line:
+# <pre>
 # Bus=05 Lev=02 Prnt=12 Port=03 Cnt=01 Dev#= 19 Spd=1.5  MxCh= 0
+# </pre>
+# @param v attribute line as str
+# @return attribute dict
 def parse_attr(v):
+  """Parse an attribute line such as found in /proc/bus/usb/devices.
+
+  Examples:
+
+  >>> parse_attr('Bus=05 Lev=02 Prnt=12 Port=03 Cnt=01 Dev#= 19 Spd=1.5')
+  {'Dev#': ' 19', 'Cnt': '01', 'Prnt': '12', 'Bus': '05', 'Lev': '02', 'Spd': '1.5', 'Port': '03'}
+  """
   last_key = None
   d = {}
   for s in v.split(' '):
@@ -33,6 +49,14 @@ class USBDev(object):
   def __init__(self,s=None):
     self.attrs = {}
     if s: self.parse(s)
+
+  def port_power(self,power=0):
+    if power: s = 'on'
+    else: s = 'off'
+    print '/sbin/hub-ctrl -b %d -d %d -P%d -p %d # %s' % (
+  	u.bus,u.parent,u.port+1,power,u.attrs['Product'])
+    print '/sbin/hubpower %d:%d power %d off # %s' % (
+  	u.bus,u.parent,u.port+1,s,u.attrs['Product'])
 
   def _parse_tree(self,d):
     self.bus = int(d['Bus'])
@@ -73,8 +97,7 @@ def find_dev(vend,prod,serial=None):
 
 def main(argv):
   u = find_dev(0x09ae,0x3016)
-  print '/sbin/hubpower %d:%d power %d off # %s' % (
-  	u.bus,u.parent,u.port+1,u.attrs['Product'])
+  u.port_power(0)
 
 if __name__ == '__main__':
   import sys
