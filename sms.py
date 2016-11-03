@@ -7,13 +7,19 @@ import tempfile
 from email.Message import Message
 from email.Utils import getaddresses,parseaddr
 from suds.client import Client
+from ConfigParser import RawConfigParser
 
 logging.basicConfig(level=logging.INFO)
 
-PHONE = {}
-EMAIL = {}
-USERID = 'T1234567'
-FROM = '"Donald Duck" <dduck@example.com>'
+# FIXME: need to read these from config
+
+config = RawConfigParser()
+config.read('/etc/ups/sms.conf')
+
+PHONE = dict(config.items('phone'))
+EMAIL = dict(config.items('email'))
+USERID = config.get('main','userid')
+FROM = config.get('main','from')
 
 class SMSError(Exception): pass
 
