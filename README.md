@@ -18,15 +18,24 @@ Windows users accept it as par for the course, naturally.
 
 ## The Workaround
 
-We can reset the USB port on the UPS by turning off power to the port
-on a [USB compliant](http://www.makelinux.net/lib/usb/2/USB_2.0_Specification/doc-363) hub.
+We can reset the USB port on the UPS by cycling power for the port
+on a [USB compliant](http://www.makelinux.net/lib/usb/2/USB_2.0_Specification/doc-363) hub.  Nut can detect the port failure, and run a script, but
+the script (naturally) runs as the nut user, and doesn't have privilege
+to reset USB ports.  Instead, we append to `/var/log/ups.log`,
+and use incron to run the `upsreset` script as root.
+
+#### Security note
+
+Add root to `/etc/incron.allow`.  It is not a good idea to allow arbitrary
+users access to incron until the package fixes some security problems.
 
 #### Mandatory All Ports Off State
 
-> Although a self-powered hub is not required to implement power switching, the
-> hub MUST support the Powered-off state for all ports. Additionally, the hub
-> MUST implement the PortPwrCtrlMask (all bits set to 1B) even though the hub
-> has no power switches that can be controlled by the USB System Software.
+> Although a self-powered hub is not required to implement per port power
+> switching, the hub MUST support the Powered-off state for all ports.
+> Additionally, the hub MUST implement the PortPwrCtrlMask (all bits set to 1B)
+> even though the hub has no power switches that can be controlled by the USB
+> System Software.
 
 ## The Sad Reality
 

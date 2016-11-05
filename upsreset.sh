@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Manually configured script to power cycle a port
+# Manually configured script to power cycle a port on a hub that supports PPPS
 
 CONFIG="/etc/sysconfig/trippfix"
 PORT=""	
