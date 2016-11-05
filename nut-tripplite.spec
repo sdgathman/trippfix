@@ -8,13 +8,13 @@ Release:	1%{?dist}
 Summary:	Nut workarounds for tripplite UPS
 
 Group:		Applications/System
-License:	GPL2+
+License:	GPLv2+
 URL:		https://github.com/sdgathman/trippfix/
 Source0:	https://github.com/sdgathman/trippfix/archive/trippfix-%{version}.tar.gz
 Source1:	https://github.com/codazoda/hub-ctrl.c/raw/%{commit}/hub-ctrl.c
 
 BuildRequires:	libusb-devel
-Requires:	nut-client nut-server incron
+Requires:	nut-client nut incron
 # For sms
 Requires:	python2
 
@@ -62,8 +62,9 @@ install -pm 755 hub-ctrl %{buildroot}%{_sbindir}
 
 mkdir -p %{buildroot}%{_bindir}
 install -pm 755 sms.py %{buildroot}%{_bindir}/sms
-install -pm 755 upssched-tripp.sh %{buildroot}%{_bindir}/upssched.tripp
+install -pm 755 upssched-tripp.sh %{buildroot}%{_bindir}/upssched-tripp
 
+# FIXME: create a /var/log/nut subdir and update scripts
 mkdir -p %{buildroot}%{_var}/log
 touch %{buildroot}%{_var}/log/ups.log
 
@@ -71,12 +72,14 @@ touch %{buildroot}%{_var}/log/ups.log
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
 %doc README.md
-%config(noreplace) %{_sysconfdir}/ups/sms.conf
+%config(noreplace) %attr(0640,root,nut) %{_sysconfdir}/ups/sms.conf
 %{_sysconfdir}/ups/upssched-tripp.conf
-%{_sysconfdir}/sysconfig/trippfix
+%config(noreplace) %{_sysconfdir}/sysconfig/trippfix
+%config(noreplace) %{_sysconfdir}/incron.d/trippfix
 %{_libexecdir}/trippfix
 %{_sbindir}/hub-ctrl
 %{_bindir}/sms
+%{_bindir}/upssched-tripp
 %config(noreplace) %attr(-,nut,root) %{_var}/log/ups.log
 
 %changelog
