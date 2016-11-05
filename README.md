@@ -1,12 +1,10 @@
 ## The Good News
 
-As part of upgrading my home data center to better serve
-[Spanish House Ministries](http://www.editorialunilit.com), I bought a
+As part of upgrading my home data center, I bought a
 new UPS unit with longer runtime and AVR.  The good news is that
-the new [Tripp Lite](https://www.amazon.com/gp/product/B009TZTGWK/)
-has a 50 minute runtime at 18% load (versus 35 minutes with my old APC 1500).
-It also has robust AVR (Active Voltage Regulation) that is confirmed to
-compensate for switchove
+the new Tripp Lite SMART1500LCDT has a 50 minute runtime at 18% load (versus 35
+minutes with my old APC 1500).  It also has robust AVR (Active Voltage
+Regulation) that is confirmed to compensate for switchover to generator power.
 
 ## The Bad News
 
@@ -25,7 +23,10 @@ on a [USB compliant](http://www.makelinux.net/lib/usb/2/USB_2.0_Specification/do
 
 #### Mandatory All Ports Off State
 
-> Although a self-powered hub is not required to implement power switching, the hub MUST support the Powered-off state for all ports. Additionally, the hub MUST implement the PortPwrCtrlMask (all bits set to 1B) even though the hub has no power switches that can be controlled by the USB System Software.
+> Although a self-powered hub is not required to implement power switching, the
+> hub MUST support the Powered-off state for all ports. Additionally, the hub
+> MUST implement the PortPwrCtrlMask (all bits set to 1B) even though the hub
+> has no power switches that can be controlled by the USB System Software.
 
 ## The Sad Reality
 
@@ -33,12 +34,16 @@ While most USB microcontrollers used in hubs properly implement one or
 both of these options (controlled by configuration pins), unfortunately, it
 seems that nearly all actual USB hubs in a box on the market ignore this
 mandatory feature, and just hardwire Vcc on all ports to 5V.  I 
-am using Linksys USB2HUB4, other working hubs are listed below.
+am using a Linksys USB2HUB4, other working hubs are listed below.
+
+Copyright (C) 2016 Stuart D. Gathman
+
+Author: Stuart Gathman <stuart at gathman.org>
 
 hub-ctrl.c
 ==========
 
-Control USB power on a port by port basis on some USB hubs.
+Control USB power on a port by port basis on USB hubs with port power switching.
 
 Originally created NIIBE Yutaka and published to Github by Joel Dare on January
 31st, 2013.

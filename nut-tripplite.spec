@@ -45,8 +45,10 @@ make LDFLAGS="$RPM_LD_FLAGS -lusb" V=1 hub-ctrl
 
 %install
 mkdir -p %{buildroot}%{_sysconfdir}/ups
+mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 install -pm 640 sms.conf %{buildroot}%{_sysconfdir}/ups
 install -pm 644 upssched.conf %{buildroot}%{_sysconfdir}/ups/upssched-tripp.conf
+install -pm 644 trippfix.conf %{buildroot}%{_sysconfdir}/sysconfig/trippfix
 
 mkdir -p %{buildroot}%{_libexecdir}/trippfix
 install -pm 755 upsreset.sh %{buildroot}%{_libexecdir}/trippfix/upsreset
@@ -63,6 +65,7 @@ install -pm 755 sms.py %{buildroot}%{_bindir}/sms
 %doc README.md
 %config %{_sysconfdir}/ups/sms.conf
 %{_sysconfdir}/ups/upssched-tripp.conf
+%{_sysconfdir}/sysconfig/trippfix
 %{_libexecdir}/trippfix
 %{_sbindir}/hub-ctrl
 %{_bindir}/sms
