@@ -1,1 +1,1 @@
-/var/log/ups.log IN_CLOSE_WRITE /var/libexec/trippfix/upsreset
+/var/log/ups.log IN_CLOSE_WRITE /usr/libexec/trippfix/upsreset

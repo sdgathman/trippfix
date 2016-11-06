@@ -3,7 +3,7 @@
 %global checkout        20161103git%{shortcommit}
 
 Name:		nut-tripplite
-Version:	0.1
+Version:	0.2
 Release:	1%{?dist}
 Summary:	Nut workarounds for tripplite UPS
 
@@ -84,5 +84,8 @@ touch %{buildroot}%{_var}/log/ups.log
 
 %changelog
 
-* Thu Nov  3 2016 Stuart Gathman <stuart@gathman.org> 0.1-1
+* Thu Nov  3 2016 Stuart Gathman <stuart@gathman.org> 0.2-1
+- Fix path to upsreset in incron.d
+
+* Fri Nov  4 2016 Stuart Gathman <stuart@gathman.org> 0.1-1
 - Initial package
