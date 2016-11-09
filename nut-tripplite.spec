@@ -4,7 +4,7 @@
 
 Name:		nut-tripplite
 Version:	0.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Nut workarounds for tripplite UPS
 
 Group:		Applications/System
@@ -56,7 +56,6 @@ mkdir -p %{buildroot}%{_libexecdir}/trippfix
 install -pm 755 upsreset.sh %{buildroot}%{_libexecdir}/trippfix/upsreset
 install -pm 755 trippfix.py %{buildroot}%{_libexecdir}/trippfix
 
-
 mkdir -p %{buildroot}%{_sbindir}
 install -pm 755 hub-ctrl %{buildroot}%{_sbindir}
 
@@ -68,6 +67,8 @@ install -pm 755 upssched-tripp.sh %{buildroot}%{_bindir}/upssched-tripp
 mkdir -p %{buildroot}%{_var}/log
 touch %{buildroot}%{_var}/log/ups.log
 
+mkdir -p %{buildroot}%{_var}/run/nut/upssched
+
 %files
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
@@ -75,14 +76,19 @@ touch %{buildroot}%{_var}/log/ups.log
 %config(noreplace) %attr(0640,root,nut) %{_sysconfdir}/ups/sms.conf
 %{_sysconfdir}/ups/upssched-tripp.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/trippfix
-%config(noreplace) %{_sysconfdir}/incron.d/trippfix
+%{_sysconfdir}/incron.d/trippfix
 %{_libexecdir}/trippfix
 %{_sbindir}/hub-ctrl
 %{_bindir}/sms
 %{_bindir}/upssched-tripp
 %config(noreplace) %attr(-,nut,root) %{_var}/log/ups.log
+%dir %attr(-,nut,nut) %{_var}/run/nut/upssched
 
 %changelog
+
+* Wed Nov  9 2016 Stuart Gathman <stuart@gathman.org> 0.2-3
+- incron.d entry should not be a config
+- include /var/run/nut/upssched
 
 * Wed Nov  9 2016 Stuart Gathman <stuart@gathman.org> 0.2-2
 - Requires python-suds for sms
