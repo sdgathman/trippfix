@@ -3,8 +3,8 @@
 %global checkout        20161103git%{shortcommit}
 
 Name:		nut-tripplite
-Version:	0.3
-Release:	1%{?dist}
+Version:	0.2
+Release:	2%{?dist}
 Summary:	Nut workarounds for tripplite UPS
 
 Group:		Applications/System
@@ -83,11 +83,10 @@ touch %{buildroot}%{_var}/log/ups.log
 %config(noreplace) %attr(-,nut,root) %{_var}/log/ups.log
 
 %changelog
-* Wed Nov  9 2016 Stuart Gathman <stuart@gathman.org> 0.3-1
-- Bad quoting on hub-ctrl cmd
 
-* Mon Nov  7 2016 Stuart Gathman <stuart@gathman.org> 0.2-2
+* Wed Nov  9 2016 Stuart Gathman <stuart@gathman.org> 0.2-2
 - Requires python-suds for sms
+- Bad quoting on hub-ctrl cmd
 
 * Sun Nov  6 2016 Stuart Gathman <stuart@gathman.org> 0.2-1
 - Fix path to upsreset in incron.d
