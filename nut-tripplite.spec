@@ -3,7 +3,7 @@
 %global checkout        20161103git%{shortcommit}
 
 Name:		nut-tripplite
-Version:	0.2
+Version:	0.3
 Release:	1%{?dist}
 Summary:	Nut workarounds for tripplite UPS
 
@@ -16,7 +16,7 @@ Source1:	https://github.com/codazoda/hub-ctrl.c/raw/%{commit}/hub-ctrl.c
 BuildRequires:	libusb-devel
 Requires:	nut-client nut incron
 # For sms
-Requires:	python2
+Requires:	python2 python-suds
 
 %description
 The Tripplite SMART1500LCDT UPS can handle running on a small generator
@@ -83,9 +83,16 @@ touch %{buildroot}%{_var}/log/ups.log
 %config(noreplace) %attr(-,nut,root) %{_var}/log/ups.log
 
 %changelog
+* Wed Nov  9 2016 Stuart Gathman <stuart@gathman.org> 0.3-1
+- Bad quoting on hub-ctrl cmd
 
-* Thu Nov  3 2016 Stuart Gathman <stuart@gathman.org> 0.2-1
+* Mon Nov  7 2016 Stuart Gathman <stuart@gathman.org> 0.2-2
+- Requires python-suds for sms
+
+* Sun Nov  6 2016 Stuart Gathman <stuart@gathman.org> 0.2-1
 - Fix path to upsreset in incron.d
+- hub-ctrl needs space after -P
+- Change default delay to 5 sec
 
 * Fri Nov  4 2016 Stuart Gathman <stuart@gathman.org> 0.1-1
 - Initial package

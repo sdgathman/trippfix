@@ -20,14 +20,14 @@ reset() {
     # Find Linksys USB2HUB4
     lsusb | grep "$HUBID" |
     while read x1 bus x2 dev x3; do
-      bus="$bus"
-      dev="${dev%:}"
+      let bus="$bus"
+      let dev="${dev%:}"
       # echo $bus $dev
       logger -t upsreset "Turning off port $port on ${bus}:${dev}"
-      /sbin/hub-ctrl "-b ${bus} -d ${dev}" -P"$port" -p 0
+      /sbin/hub-ctrl -b "${bus}" -d "${dev}" -P "$port" -p 0
       sleep "$DELAY"
       logger -t upsreset "Turning on port $port on ${bus}:${dev}"
-      /sbin/hub-ctrl "-b ${bus} -d ${dev}" -P"$port" -p 1
+      /sbin/hub-ctrl -b "${bus}" -d "${dev}" -P "$port" -p 1
     done
 }
 
@@ -42,10 +42,10 @@ shift 3
 msg="$*"
 
 if [ "$event" = "NOCOMM" ]; then
-  logger -t upsreset "RESET UPS" 
   if lsusb | grep "$TRIPPID" >/dev/null; then
-    : Tripplite is visible on USB bus
+    logger -t upsreset "UPS $TRIPPID active on USB" 
   else
+    logger -t upsreset "RESET UPS $TRIPPID" 
     reset "$PORT"
   fi
 elif [ "$event" = "SMS" ]; then
