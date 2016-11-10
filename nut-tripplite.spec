@@ -83,14 +83,13 @@ install -pm 644 -D halpolicy.fdi \
 %{_sysconfdir}/ups/upssched-tripp.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/trippfix
 %{_sysconfdir}/incron.d/trippfix
-%{_sysconfdir}/hal/fdi/preprobe/10osvendor/*
+%{halpolicydir}/80-trippfix-policy.fdi
 %{_libexecdir}/trippfix
 %{_sbindir}/hub-ctrl
 %{_bindir}/sms
 %{_bindir}/upssched-tripp
 %config(noreplace) %attr(-,nut,root) %{_var}/log/ups.log
 %dir %attr(-,nut,nut) %{_var}/run/nut/upssched
-%{halpolicydir}/80-trippfix-policy.fdi
 
 %changelog
 
