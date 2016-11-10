@@ -2,6 +2,8 @@
 %global shortcommit     42095e5
 %global checkout        20161103git%{shortcommit}
 
+%global halpolicydir	/etc/hal/fdi/policy
+
 Name:		nut-tripplite
 Version:	0.3
 Release:	1%{?dist}
@@ -70,8 +72,8 @@ touch %{buildroot}%{_var}/log/ups.log
 mkdir -p %{buildroot}%{_var}/run/nut/upssched
 
 # disable HAL accessing USB port
-install -pm 644 -D hal.fdi \
- %{buildroot}%{_sysconfdir}/hal/fdi/preprobe/10osvendor/10-ignore-tripplite.fdi
+install -pm 644 -D halpolicy.fdi \
+	%{buildroot}%{halpolicydir}/80-trippfix-policy.fdi
 
 %files
 %{!?_licensedir:%global license %%doc}
@@ -88,11 +90,12 @@ install -pm 644 -D hal.fdi \
 %{_bindir}/upssched-tripp
 %config(noreplace) %attr(-,nut,root) %{_var}/log/ups.log
 %dir %attr(-,nut,nut) %{_var}/run/nut/upssched
+%{halpolicydir}/80-trippfix-policy.fdi
 
 %changelog
 
 * Wed Nov  9 2016 Stuart Gathman <stuart@gathman.org> 0.3-1
-- include 10-ignore-tripplite.fdi to disable hald-addon-hid-ups
+- include 80-trippfix-policy to disable hald-addon-hid-ups
 
 * Wed Nov  9 2016 Stuart Gathman <stuart@gathman.org> 0.2-3
 - incron.d entry should not be a config
