@@ -3,8 +3,8 @@
 %global checkout        20161103git%{shortcommit}
 
 Name:		nut-tripplite
-Version:	0.2
-Release:	3%{?dist}
+Version:	0.3
+Release:	1%{?dist}
 Summary:	Nut workarounds for tripplite UPS
 
 Group:		Applications/System
@@ -69,6 +69,10 @@ touch %{buildroot}%{_var}/log/ups.log
 
 mkdir -p %{buildroot}%{_var}/run/nut/upssched
 
+# disable HAL accessing USB port
+install -pm 644 -D hal.fdi \
+ %{buildroot}%{_sysconfdir}/hal/fdi/preprobe/10osvendor/10-ignore-tripplite.fdi
+
 %files
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
@@ -77,6 +81,7 @@ mkdir -p %{buildroot}%{_var}/run/nut/upssched
 %{_sysconfdir}/ups/upssched-tripp.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/trippfix
 %{_sysconfdir}/incron.d/trippfix
+%{_sysconfdir}/hal/fdi/preprobe/10osvendor/*
 %{_libexecdir}/trippfix
 %{_sbindir}/hub-ctrl
 %{_bindir}/sms
@@ -85,6 +90,9 @@ mkdir -p %{buildroot}%{_var}/run/nut/upssched
 %dir %attr(-,nut,nut) %{_var}/run/nut/upssched
 
 %changelog
+
+* Wed Nov  9 2016 Stuart Gathman <stuart@gathman.org> 0.3-1
+- include 10-ignore-tripplite.fdi to disable hald-addon-hid-ups
 
 * Wed Nov  9 2016 Stuart Gathman <stuart@gathman.org> 0.2-3
 - incron.d entry should not be a config
