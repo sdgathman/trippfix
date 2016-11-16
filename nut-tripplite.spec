@@ -2,11 +2,11 @@
 %global shortcommit     42095e5
 %global checkout        20161103git%{shortcommit}
 
-%global halpolicydir	/etc/hal/fdi/policy
+%global halpolicydir	%{_datarootdir}/hal/fdi/policy/20thirdparty
 
 Name:		nut-tripplite
 Version:	0.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Nut workarounds for tripplite UPS
 
 Group:		Applications/System
@@ -92,6 +92,9 @@ install -pm 644 -D halpolicy.fdi \
 %dir %attr(-,nut,nut) %{_var}/run/nut/upssched
 
 %changelog
+
+* Fri Nov 11 2016 Stuart Gathman <stuart@gathman.org> 0.3-2
+- move hal policy to /usr/share/hal/fdi/policy
 
 * Wed Nov  9 2016 Stuart Gathman <stuart@gathman.org> 0.3-1
 - include 80-trippfix-policy to disable hald-addon-hid-ups
