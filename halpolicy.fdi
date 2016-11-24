@@ -4,8 +4,8 @@
   <device>
     <match key="info.addons" contains="hald-addon-hid-ups">
       <match key="@info.parent:info.bus" string="usb">
-        <match key="@info.parent:usb.vendor_id" int="09ae">
-          <match key="@info.parent:usb.product_id" int="3016">
+        <match key="@info.parent:usb.vendor_id" int="0x09ae">
+          <match key="@info.parent:usb.product_id" int="0x3016">
             <remove key="info.addons" type="strlist">hald-addon-hid-ups</remove>
           </match>
         </match>
