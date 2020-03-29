@@ -1,3 +1,25 @@
+## Update: 
+
+I upgraded the server using Tripp Lite to CentOS-8, and found that the newer kernel-4.18 tries a power
+cycle with standard conforming hubs automatically.  This excerpt from dmesg shows the kernel 
+power cycling the USB port:
+
+~~~
+[1362889.686300] usb 2-1.3-port4: disabled by hub (EMI?), re-enabling...
+[1362889.686538] usb 2-1.3.4: USB disconnect, device number 21
+[1362890.647976] usb 2-1.3-port4: Cannot enable. Maybe the USB cable is bad?
+[1362891.487961] usb 2-1.3-port4: Cannot enable. Maybe the USB cable is bad?
+[1362891.488185] usb 2-1.3-port4: attempt power cycle
+[1362892.507703] usb 2-1.3.4: new low-speed USB device number 24 using ehci-pci
+[1362892.556075] usb 2-1.3.4: New USB device found, idVendor=09ae, idProduct=3016, bcdDevice= 0.02
+[1362892.556079] usb 2-1.3.4: New USB device strings: Mfr=3, Product=1, SerialNumber=5
+[1362892.556082] usb 2-1.3.4: Product: TRIPP LITE UPS
+[1362892.556084] usb 2-1.3.4: Manufacturer: Tripp Lite
+~~~
+
+So, while the Tripp Lite USB controller is still braindead, you may no longer need this package.  For those
+on older kernels, or to find out what kind of hub to buy to make your Tripp Lite work properly, read on.
+
 ## The Good News
 
 As part of upgrading my home data center, I bought a
