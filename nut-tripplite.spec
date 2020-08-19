@@ -41,7 +41,7 @@ for more than a few days.
 %setup -q -n trippfix-%{version}
 
 %build
-make LDFLAGS="$RPM_LD_FLAGS -lusb" V=1 hub-ctrl
+make LDFLAGS="%{build_cflags} %{build_ldflags} -fPIC -lusb" V=1 hub-ctrl
 
 %install
 mkdir -p %{buildroot}%{_sysconfdir}/ups
