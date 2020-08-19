@@ -1,13 +1,13 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 import sys
 import logging
 import smtplib
 import tempfile
-from email.Message import Message
-from email.Utils import getaddresses,parseaddr
+from email.message import Message
+from email.utils import getaddresses,parseaddr
 from suds.client import Client
-from ConfigParser import RawConfigParser
+from configparser import RawConfigParser
 
 logging.basicConfig(level=logging.INFO)
 
@@ -88,24 +88,24 @@ if __name__ == '__main__':
     else:
       cell = name
     if len(msg) > 160:
-      print "Message too long (%d)." % len(msg)
+      print("Message too long (%d)." % len(msg))
     else:
       res = sms.sendMsg(cell, msg)
-      print "id %d, %d units remaining"%(res,sms.remaining)
+      print("id %d, %d units remaining"%(res,sms.remaining))
       if name in EMAIL:
         sendEmail(EMAIL[name],'SMS %d'%res,msg)
   else:
     for m in sms.getRecv():
-      print "%8s %8s %8s %10s %s" % (
+      print("%8s %8s %8s %10s %s" % (
         m.OutgoingMessageID,
         m.Reference,
         m.MessageNumber,
         m.PhoneNumber,
-        m.ReceivedDate )
-      print "> ",m.Message
+        m.ReceivedDate ))
+      print("> ",m.Message)
     for m in sms.getSent():
-      print "%1s %8s %1s%1s %8s %10s %s" % (
+      print("%1s %8s %1s%1s %8s %10s %s" % (
         m.CreditsDeducted, m.Reference, m.Sent, m.Status[:1],
 	m.MessageID, m.CellNumber, m.SendDate
-      )
-      print "> ",m.Body
+      ))
+      print("> ",m.Body)

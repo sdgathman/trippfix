@@ -1,9 +1,9 @@
-VERSION=0.3
+VERSION=0.4
 PKG=trippfix-$(VERSION)
 SRCTAR=$(PKG).tar.gz
 
 $(SRCTAR):
-	git archive --format=tar --prefix=$(PKG)/ -o $(PKG).tar $(VERSION)
+	git archive --format=tar --prefix=$(PKG)/ -o $(PKG).tar trippfix-$(VERSION)
 	gzip $(PKG).tar
 
 gittar: $(SRCTAR)

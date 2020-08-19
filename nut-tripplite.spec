@@ -5,20 +5,19 @@
 %global halpolicydir	%{_datarootdir}/hal/fdi/policy/20thirdparty
 
 Name:		nut-tripplite
-Version:	0.3
-Release:	2%{?dist}
+Version:	0.4
+Release:	1%{?dist}
 Summary:	Nut workarounds for tripplite UPS
 
 Group:		Applications/System
 License:	GPLv2+
 URL:		https://github.com/sdgathman/trippfix/
 Source0:	https://github.com/sdgathman/trippfix/archive/trippfix-%{version}.tar.gz
-Source1:	https://github.com/codazoda/hub-ctrl.c/raw/%{commit}/hub-ctrl.c
 
 BuildRequires:	libusb-devel
 Requires:	nut-client nut incron
 # For sms
-Requires:	python2 python-suds
+Requires:	python3 python3-suds
 
 %description
 The Tripplite SMART1500LCDT UPS can handle running on a small generator
@@ -40,7 +39,6 @@ for more than a few days.
 
 %prep
 %setup -q -n trippfix-%{version}
-cp -p %{SOURCE1} .
 
 %build
 make LDFLAGS="$RPM_LD_FLAGS -lusb" V=1 hub-ctrl
@@ -92,6 +90,8 @@ install -pm 644 -D halpolicy.fdi \
 %dir %attr(-,nut,nut) %{_var}/run/nut/upssched
 
 %changelog
+* Tue Aug 18 2020 Stuart Gathman <stuart@gathman.org> 0.4-1
+- update to python3
 
 * Fri Nov 11 2016 Stuart Gathman <stuart@gathman.org> 0.3-2
 - move hal policy to /usr/share/hal/fdi/policy
